@@ -6,104 +6,124 @@ import (
 	"testing"
 )
 
+func TestStack_LIFO(t *testing.T) {
+	s := New[string]()
+
+	s.Push("A")
+	s.Push("B")
+	s.Push("C")
+
+	v, err := s.Pop()
+	assert.Nil(t, err)
+	assert.Equal(t, "C", v)
+
+	v, err = s.Pop()
+	assert.Nil(t, err)
+	assert.Equal(t, "B", v)
+
+	v, err = s.Pop()
+	assert.Nil(t, err)
+	assert.Equal(t, "A", v)
+}
+
 func TestStack_Length(t *testing.T) {
-	stack := New[int]()
+	s := New[int]()
 
 	for i := 1; i < 10; i++ {
-		stack.Push(i)
-		assert.Equal(t, i, stack.Length())
+		s.Push(i)
+		assert.Equal(t, i, s.Length())
 	}
 
 	for i := 9; i > 0; i-- {
-		assert.Equal(t, i, stack.Length())
-		_, err := stack.Pop()
+		assert.Equal(t, i, s.Length())
+		_, err := s.Pop()
 		assert.Nil(t, err, "unexpected error")
 	}
 }
 
 func TestStack_IsEmpty(t *testing.T) {
-	stack := New[int]()
+	s := New[int]()
 
-	assert.True(t, stack.IsEmpty())
-	stack.Push(12)
-	assert.False(t, stack.IsEmpty())
+	assert.True(t, s.IsEmpty())
+	s.Push(12)
+	assert.False(t, s.IsEmpty())
 }
 
 func TestStack_Push(t *testing.T) {
-	stack := New[int]()
+	s := New[int]()
 
-	stack.Push(1)
-	assert.Equal(t, 1, stack.Length(), "exactly 1 element should be present")
-	assert.False(t, stack.IsEmpty(), "stack should not be empty")
+	s.Push(1)
+	assert.Equal(t, 1, s.Length(), "exactly 1 element should be present")
+	assert.False(t, s.IsEmpty(), "stack should not be empty")
 
-	stack.Push(2)
-	assert.Equal(t, 2, stack.Length(), "exactly 2 elements should be present")
-	assert.False(t, stack.IsEmpty(), "stack should not be empty")
+	s.Push(2)
+	assert.Equal(t, 2, s.Length(), "exactly 2 elements should be present")
+	assert.False(t, s.IsEmpty(), "stack should not be empty")
 
-	stack.Push(3)
-	assert.Equal(t, 3, stack.Length(), "exactly 3 elements should be present")
-	assert.False(t, stack.IsEmpty(), "stack should not be empty")
+	s.Push(3)
+	assert.Equal(t, 3, s.Length(), "exactly 3 elements should be present")
+	assert.False(t, s.IsEmpty(), "stack should not be empty")
 
-	stack.Push(4)
-	assert.Equal(t, 4, stack.Length(), "exactly 4 elements should be present")
-	assert.False(t, stack.IsEmpty(), "stack should not be empty")
+	s.Push(4)
+	assert.Equal(t, 4, s.Length(), "exactly 4 elements should be present")
+	assert.False(t, s.IsEmpty(), "stack should not be empty")
 }
 
 func TestStack_Peek(t *testing.T) {
-	stack := New[int]()
+	s := New[int]()
 
-	_, err := stack.Peek()
-	assert.ErrorIs(t, err, collection.StackEmptyError)
+	_, err := s.Peek()
+	assert.ErrorIs(t, err, collection.EmptyError)
 
-	stack.Push(2)
-	stack.Push(3)
-	stack.Push(5)
-	stack.Push(8)
+	s.Push(2)
+	s.Push(3)
+	s.Push(5)
+	s.Push(8)
 
-	assert.Equal(t, 4, stack.Length())
+	assert.Equal(t, 4, s.Length())
 
-	v, err := stack.Peek()
+	v, err := s.Peek()
 	assert.Equal(t, 8, v)
-	assert.Equal(t, 4, stack.Length())
+	assert.Equal(t, 4, s.Length())
 
-	v, err = stack.Peek()
+	v, err = s.Peek()
 	assert.Equal(t, 8, v)
-	assert.Equal(t, 4, stack.Length())
+	assert.Equal(t, 4, s.Length())
 }
 
 func TestStack_Pop(t *testing.T) {
-	stack := New[string]()
+	s := New[string]()
 
-	_, err := stack.Pop()
-	assert.ErrorIs(t, err, collection.StackEmptyError)
+	_, err := s.Pop()
+	assert.ErrorIs(t, err, collection.EmptyError)
 
-	stack.Push("a")
-	stack.Push("b")
-	stack.Push("c")
+	s.Push("a")
+	s.Push("b")
+	s.Push("c")
 
-	assert.Equal(t, 3, stack.Length())
+	assert.Equal(t, 3, s.Length())
 
-	v, err := stack.Pop()
+	v, err := s.Pop()
 	assert.Equal(t, "c", v)
 	assert.Nil(t, err)
-	assert.Equal(t, 2, stack.Length())
+	assert.Equal(t, 2, s.Length())
 
-	v, err = stack.Peek()
+	v, err = s.Peek()
 	assert.Equal(t, "b", v)
 
-	v, err = stack.Pop()
+	v, err = s.Pop()
 	assert.Equal(t, "b", v)
 	assert.Nil(t, err)
-	assert.Equal(t, 1, stack.Length())
+	assert.Equal(t, 1, s.Length())
 
-	v, err = stack.Peek()
+	v, err = s.Peek()
 	assert.Equal(t, "a", v)
 
-	v, err = stack.Pop()
+	v, err = s.Pop()
 	assert.Equal(t, "a", v)
 	assert.Nil(t, err)
-	assert.Equal(t, 0, stack.Length())
+	assert.Equal(t, 0, s.Length())
 
-	v, err = stack.Peek()
-	assert.ErrorIs(t, err, collection.StackEmptyError)
+	v, err = s.Peek()
+	assert.ErrorIs(t, err, collection.EmptyError)
 }

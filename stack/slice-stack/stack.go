@@ -19,7 +19,7 @@ type Stack[T any] struct {
 func (s *Stack[T]) Pop() (T, error) {
 	if s.Length() == 0 {
 		var empty T
-		return empty, stack.StackEmptyError
+		return empty, stack.EmptyError
 	}
 
 	e := s.slice[s.Length()-1]
@@ -31,7 +31,7 @@ func (s *Stack[T]) Pop() (T, error) {
 func (s *Stack[T]) Peek() (T, error) {
 	if s.Length() == 0 {
 		var empty T
-		return empty, stack.StackEmptyError
+		return empty, stack.EmptyError
 	}
 
 	e := s.slice[s.Length()-1]
